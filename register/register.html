@@ -12,16 +12,17 @@
             margin: 0;
             padding: 0;
             font-family: 'Poppins', sans-serif;
-            background-color: #d41515;
+            background: rgba(241, 78, 149, 0.4);
+
         }
 
         /* Navbar Styles */
         .navbar {
             display: flex;
-            justify-content: space-between;
+            justify-content: space-around;
             align-items: center;
-            background-color: #d41515;
-            padding: 15px 50px;
+            background-color: #F14E95;
+            padding: 15px 90px;
             color: white;
             position: sticky;
             top: 0;
@@ -30,6 +31,12 @@
         }
 
         .navbar .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+        .navbar .logo a{
+            text-decoration: none;
+            color: white;
             font-size: 22px;
             font-weight: bold;
         }
@@ -61,9 +68,10 @@
             display: flex;
             max-width: 1200px;
             width: 100%;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            background-color: #fff;
-            margin: 50px auto;
+            /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+            /* background: rgba(241, 78, 149, 0.4); */
+            margin: 0px auto;
+            padding: 50px 0px;
         }
 
         /* Left Section Styles */
@@ -169,7 +177,7 @@
 
         .register-btn {
             width: 100%;
-            background-color: #d32f2f;
+            background-color: #F14E95;
             color: white;
             padding: 12px;
             font-size: 16px;
@@ -212,8 +220,8 @@
         <div class="logo"><a href="../index.html"> القائم ازدواج سروس </a>   </div> 
         <!-- <ul class="nav-links">
             <li><a href="../index.html">Home</a></li>
-            <li><a href="../login/login.html">Login</a></li>
-            <li><a href="./register.html">Register</a></li>
+            <li><a href="#">Login</a></li>
+            <li><a href="../register/register.html">Register</a></li>
             <li><a href="../services.html">Services</a></li>
             <li><a href="../contact.html">Contect</a></li>
         </ul> -->
@@ -224,7 +232,7 @@
         <!-- Left Section with Image and Welcome Text -->
         <div class="left-section">
             <div class="welcome-text">
-                <h1>Welcome</h1>
+                <h1>Welcome Back</h1>
                 <p>Pakistan's largest online matrimonial service</p>
                 <!-- <button class="login-btn">Login</button> -->
             </div>
@@ -337,7 +345,6 @@
                     </div>
                 </div>
 
-                <p style="padding-left: 10px;">Already Have a Account ? <a href="../login/login.html">Login</a></p>
                 <!-- Submit Button -->
                 <button type="submit" name="reg" class="register-btn">Register</button>
             </form>
