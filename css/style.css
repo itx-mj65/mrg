@@ -1927,6 +1927,12 @@ form label {
       font-size: 18px;
       color: #555;
     }
+    @media only screen and (max-width: 650px){
+.child-container{
+  grid-template-columns: repeat(1, 1fr);
+}
+      
+    }
 
 
     /* ////////////////// footer section //////////////  */
