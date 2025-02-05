@@ -1,6 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<?php
+include "../admin/config.php";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $guardianName = $_POST['name'];
+    $relationGroomBride = $_POST['email'];
+    $guardianPhone = $_POST['phone'];
+    $lookingFor = $_POST['lookin'];
+    $groomBrideName = $_POST['groomBrideName'];
+    $dob = $_POST['dob'];
+    $gender = $_POST['gender'];
+    $caste = $_POST['caste'];
+    $sect = $_POST['sect'];
+    $country = $_POST['country'];
+    $city = $_POST['city'];
+    $height = $_POST['height'];
+    $education = $_POST['education'];
+    $description = $_POST['Description'];
+    $paymentMethod = $_POST['paymentMethod'];
+
+    $imagePath = "";
+    if (isset($_FILES['upload']) && $_FILES['upload']['error'] == 0) {
+        $imageName = time() . '_' . basename($_FILES['upload']['name']);
+        $targetDir = "uploads/";
+        $targetFilePath = $targetDir . $imageName;
+
+        if (move_uploaded_file($_FILES['upload']['tmp_name'], $targetFilePath)) {
+            $imagePath = $targetFilePath;
+        }
+    }
+
+    $stmt = $conn->prepare("INSERT INTO registrations (name, email, phone, looking_for, groom_bride_name, dob, gender, caste, sect, country, city, height, education, description, payment_method, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssssssssssssssss", $guardianName, $relationGroomBride, $guardianPhone, $lookingFor, $groomBrideName, $dob, $gender, $caste, $sect, $country, $city, $height, $education, $description, $paymentMethod, $imagePath);
+
+    if ($stmt->execute()) {
+        echo "<script>alert('Registration successful!');</script>";
+    } else {
+        echo "<script>alert('Error: " . $stmt->error . "');</script>";
+    }
+
+    $stmt->close();
+}
+$conn->close();
+?>
+
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,7 +80,8 @@
             font-size: 22px;
             font-weight: bold;
         }
-        .navbar .logo a{
+
+        .navbar .logo a {
             text-decoration: none;
             color: white;
             font-size: 22px;
@@ -43,7 +90,7 @@
 
         .navbar .nav-links {
             list-style-type: none;
-            
+
             padding: 20px;
             display: flex;
         }
@@ -60,7 +107,7 @@
         }
 
         .navbar .nav-links a:hover {
-           color: #E91E63;
+            color: #E91E63;
         }
 
         /* Main Container Styling */
@@ -99,9 +146,10 @@
         .welcome-text p {
             margin-bottom: 30px;
         }
-        #profilePicture{
-          margin-left: 30px;
-          width: 300px;
+
+        #profilePicture {
+            margin-left: 30px;
+            width: 300px;
         }
 
         .login-btn {
@@ -217,7 +265,7 @@
 
     <!-- Navbar with Logo and Navigation Links -->
     <div class="navbar">
-        <div class="logo"><a href="../index.html"> القائم ازدواج سروس </a>   </div> 
+        <div class="logo"><a href="../index.html"> القائم ازدواج سروس </a> </div>
         <!-- <ul class="nav-links">
             <li><a href="../index.html">Home</a></li>
             <li><a href="#">Login</a></li>
@@ -240,25 +288,25 @@
 
         <!-- Right Section with Form -->
         <div class="right-section">
-            <h2>Registeration Page</h2>
-            <form  action="database.php" method="post" id="registrationForm" class="registration-form">
+            <h2>Registeration Page</h2> 
+            <form action="./register.php" method="post" enctype="multipart/form-data" id="registrationForm" class="registration-form">
                 <!-- Guardian Information -->
                 <div class="form-row">
                     <div class="form-group">
-                        <input type="text" name="guardianName" id="guardianName" placeholder="Guardian Name" required>
+                        <input type="text" name="name" id="guardianName" placeholder="name" required>
                     </div>
                     <div class="form-group">
-                        <input type="text" name="relationGroomBride" id="relationGroomBride" placeholder="Guardian Relation with Groom/Bride" required>
+                        <input type="email" name="email" id="relationGroomBride" placeholder="Email" required>
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
-                        <input type="tel"  name="guardianPhone" id="guardianPhone" placeholder="Guardian Phone Number" required>
+                        <input type="tel" name="phone" id="guardianPhone" placeholder="Phone Number" required>
                     </div>
                     <div class="form-group">
-                      <input type="text" name="lookin" id="guardianPhone" placeholder="Looking For" required>
-                  </div>
+                        <input type="text" name="lookin" id="guardianPhone" placeholder="Looking For" required>
+                    </div>
                 </div>
 
                 <!-- Groom/Bride Information -->
@@ -274,7 +322,7 @@
                 <div class="form-row">
                     <div class="form-group">
                         <select id="gender" name="gender" required>
-                            <option value=""  disabled selected>Gender</option>
+                            <option value="" disabled selected>Gender</option>
                             <option value="male">Male</option>
                             <option value="female">Female</option>
                         </select>
@@ -317,7 +365,13 @@
 
                 <div class="form-row">
                     <div class="form-group">
-                        <input type="text" name="education id="education" placeholder="Education" required>
+                        <select name="education">
+                            <option value="">Education</option>
+                            <option value="High School">High School</option>
+                            <option value="Bachelor">Bachelor</option>
+                            <option value="Master">Master</option>
+                        </select>
+
                     </div>
                     <div class="form-group" style="flex-basis: 100%;">
                         <input type="file" name="upload" id="profilePicture" placeholder="Upload Picture" accept="image/*" required>
@@ -353,7 +407,7 @@
 
     <!-- JavaScript for Form Validation -->
     <script>
-        document.getElementById('registrationForm').addEventListener('submit', function (event) {
+        document.getElementById('registrationForm').addEventListener('submit', function(event) {
             // Email validation
             const email = document.getElementById('email');
             const emailError = document.getElementById('emailError');
